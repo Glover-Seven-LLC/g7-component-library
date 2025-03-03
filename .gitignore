@@ -1,0 +1,67 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build artifacts
+dist/
+*.tsbuildinfo
+.eslintcache
+
+# Storybook build files
+.storybook/build/
+storybook-static/
+
+# Logs
+*.log
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+
+# Vite
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# macOS
+.DS_Store
+
+# Temp files
+*.swp
+*.swo
+*.bak
+*.tmp
+Thumbs.db
+
+# Example app
+example/node_modules/
+example/dist/
+
+# Env files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Firebase (if used)
+firebase-debug.log
+firebase.json
+firestore.rules
+firestore.indexes.json
+
+# IDE Specific
+.idea/
+*.iml
+
+# Lerna / Monorepos (if applicable)
+lerna-debug.log
+
+*storybook.log
