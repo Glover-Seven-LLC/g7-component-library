@@ -1,0 +1,226 @@
+.ticker {
+    background: linear-gradient(to bottom, #1E2233 50%, #141621 50%);
+    padding: 12px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    width: 350px;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+.tickerHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tokenContainer {
+    width: 50px;
+    height: 50px;
+    background: #252A3A;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tokenImg {
+    width: 60px;
+    height: 60px;
+}
+
+.contractLink {
+    margin-left: 4px;
+    text-decoration: none;
+    font-size: 12px;
+    cursor: pointer;
+    padding-right: 4px;
+    color: #00AEEF;
+}
+
+.contractLink:hover {
+    color: #FFD700;
+}
+
+.tokenInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tokenPair {
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.chainDetails {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #ccc;
+    margin-left: -3px;
+}
+
+.chainLogo {
+    width: 20px;
+    height: 20px;
+}
+
+/* Price Section Layout */
+.priceSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Price & Social Section */
+.priceRow {
+    display: flex;
+    justify-content: space-between; /* Price on left, Socials on right */
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Price Styling */
+.price {
+    font-size: 35px;
+    font-weight: bold;
+    text-align: left;
+    transition: color 0.3s ease;
+}
+
+/* Wallet Balance (Appears Below Price & Socials) */
+.walletBalance {
+    font-size: 20px;
+    color: #AAA; /* Light gray for contrast */
+    margin-top: 4px;
+    text-align: left;
+}
+.priceNeutral {
+    color: white;
+}
+
+.priceUp {
+    color: #00FF00; /* Green */
+}
+
+.priceDown {
+    color: #FF0000; /* Red */
+}
+
+/* Social Icons Layout */
+.socialIcons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+}
+
+/* Individual Social Icons */
+.socialIcon {
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.socialIcon:hover {
+    color: #FFD700; /* Gold on hover */
+}
+
+/* Three-Dots Menu Button */
+.threeDotsButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* Dropdown Menu (Now Opens Downward) */
+.dropdownMenu {
+    position: absolute;
+    top: 30px; /* Moves the dropdown downward */
+    right: 0;
+    background: #1E2233;
+    padding: 5px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 10;
+}
+
+.tickerStats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 10px;
+}
+/* Wallet Value (small USD amount below tokens) */
+.walletValue {
+    font-size: 12px;
+    color: #AAA; /* Light gray for contrast */
+}
+/* Price & Wallet Section */
+.priceContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+
+/* Stats Row */
+.statsRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #333;
+}
+
+/* Individual Stats Column */
+.statsColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+/* Stats Title */
+.statsTitle {
+    font-size: 12px;
+    color: #AAA;
+    text-transform: uppercase;
+}
+
+/* Stats Value */
+.statsValue {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Vertical Separators */
+.statsColumn:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: #444; /* Light separator */
+}

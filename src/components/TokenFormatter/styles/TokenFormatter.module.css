@@ -1,0 +1,54 @@
+.numberWrapper {
+    display: inline-flex;
+    align-items: baseline;
+    font-weight: bold;
+    white-space: nowrap; /* Prevent wrapping */
+    flex-shrink: 0;      /* Prevent shrinking */
+}
+
+/* ✅ Small size */
+.small {
+    font-size: 12px;
+}
+
+.small .subscript {
+    font-size: 8px;
+    top: 0.3em;  /* Adjust subscript position */
+}
+
+/* ✅ Medium size (default) */
+.medium {
+    font-size: 16px;
+}
+
+.medium .subscript {
+    font-size: 10px;
+    top: 0.4em;
+}
+
+/* ✅ Large size */
+.large {
+    font-size: 20px;
+}
+
+.large .subscript {
+    font-size: 12px;
+    top: 0.5em;
+}
+
+/* ✅ Extra Large size */
+.x-large {
+    font-size: 28px;
+}
+
+.x-large .subscript {
+    font-size: 14px;
+    top: 0.6em;
+}
+
+/* Subscript Formatting */
+.subscript {
+    position: relative;
+    margin-left: 2px;
+    opacity: 0.8;
+}
