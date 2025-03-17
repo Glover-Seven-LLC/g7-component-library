@@ -154,3 +154,24 @@ export const LongTokenPrice: StoryFn<typeof Ticker> = () => (
 export const RoundedTokenPrice: StoryFn<typeof Ticker> = () => (
     <Ticker data={{ ...baseMockData, tokenPrice: 0.234023454 }} showWalletBalance={true} />
 );
+// ✅ **Story: Ticker Size Variants**
+export const TickerSizes: StoryFn<typeof Ticker> = () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "20px", alignItems: "center" }}>
+        <div>
+            <h3 style={{ color: "white", marginBottom: "10px" }}>Small</h3>
+            <Ticker data={baseMockData} size="small" />
+        </div>
+        <div>
+            <h3 style={{ color: "white", marginBottom: "10px" }}>Medium</h3>
+            <Ticker data={baseMockData} size="medium" />
+        </div>
+        <div>
+            <h3 style={{ color: "white", marginBottom: "10px" }}>Large</h3>
+            <Ticker data={baseMockData} size="large" />
+        </div>
+        <div>
+            <h3 style={{ color: "white", marginBottom: "10px" }}>X-Large</h3>
+            <Ticker data={baseMockData} size="x-large" />
+        </div>
+    </div>
+);

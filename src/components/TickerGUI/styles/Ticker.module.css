@@ -1,14 +1,137 @@
+/* Root Scale Variables */
+:root {
+    --small-scale: 1;
+    --medium-scale: 1.4;
+    --large-scale: 1.8;
+    --xlarge-scale: 2.2;
+}
+
+/* Base Ticker Styles */
 .ticker {
-    background: linear-gradient(to bottom, #1E2233 55%, #141621 45%);
-    padding: 12px;
-    border-radius: 12px;
     display: flex;
     flex-direction: column;
+    border-radius: calc(12px * var(--scale));
     color: white;
-    width: 250px;
     font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #1E2233 55%, #141621 45%);
     position: relative;
+    padding: calc(12px * var(--scale));
+    width: calc(250px * var(--scale));
+    transition: all 0.3s ease;
 }
+
+/* Apply Scaling */
+.ticker.small { --scale: var(--small-scale); }
+.ticker.medium { --scale: var(--medium-scale); }
+.ticker.large { --scale: var(--large-scale); }
+.ticker.x-large { --scale: var(--xlarge-scale); }
+
+/* Scale Images */
+.tokenContainer {
+    width: calc(50px * var(--scale));
+    height: calc(50px * var(--scale));
+}
+.tokenImg {
+    width: calc(40px * var(--scale));
+    height: calc(40px * var(--scale));
+}
+
+/* Scale Text */
+.tokenPair {
+    font-size: calc(16px * var(--scale));
+    font-weight: bold;
+    gap: calc(5px * var(--scale));
+}
+.contractLink {
+    font-size: calc(10px * var(--scale));
+}
+.chainDetails {
+    font-size: calc(10px * var(--scale));
+    gap: calc(6px * var(--scale));
+}
+.chainLogo {
+    width: calc(18px * var(--scale));
+    height: calc(18px * var(--scale));
+}
+
+/* Price Section */
+.price {
+    font-size: calc(20px * var(--scale));
+    font-weight: bold;
+}
+
+/* Wallet Balance */
+.walletBalance {
+    font-size: calc(14px * var(--scale));
+}
+
+/* Social Icons */
+.socialIcon {
+    font-size: calc(12px * var(--scale));
+}
+
+/* Stats Section */
+.statsRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: calc(10px * var(--scale));
+    padding-top: calc(8px * var(--scale));
+    border-top: calc(1px * var(--scale)) solid #333;
+}
+.statsColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    text-align: center;
+}
+.statsTitle {
+    font-size: calc(10px * var(--scale));
+    color: #AAA;
+}
+.statsValue {
+    font-size: calc(12px * var(--scale));
+    font-weight: bold;
+    color: white;
+}
+
+
+/* Base Small Size */
+.ticker.small {
+    width: 250px;
+    font-size: 12px;
+}
+
+/* Medium Size */
+.ticker.medium {
+    width: 350px;
+    font-size: 14px;
+}
+
+/* Large Size */
+.ticker.large {
+    width: 450px;
+    font-size: 16px;
+}
+
+/* X-Large Size */
+.ticker.x-large {
+    width: 550px;
+    font-size: 18px;
+}
+
+/* Scale Images Dynamically */
+.ticker.small .tokenImg { width: 40px; height: 40px; }
+.ticker.medium .tokenImg { width: 50px; height: 50px; }
+.ticker.large .tokenImg { width: 60px; height: 60px; }
+.ticker.x-large .tokenImg { width: 70px; height: 70px; }
+
+/* Adjust Price Size */
+.ticker.small .price { font-size: 16px; }
+.ticker.medium .price { font-size: 20px; }
+.ticker.large .price { font-size: 24px; }
+.ticker.x-large .price { font-size: 28px; }
 
 .tickerHeader {
     display: flex;
