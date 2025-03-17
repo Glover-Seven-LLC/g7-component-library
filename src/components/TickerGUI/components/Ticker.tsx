@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { TickerData } from "../models/tickerModel.js";
-import styles from "../styles/Ticker.module.css"
+import { TickerData } from "../models/tickerModel";
+import styles from "../styles/Ticker.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faXTwitter,
@@ -13,16 +13,13 @@ import {
     faReddit,
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faGlobe, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import {numberTextConverter} from "../../../utils/numberConverter";
-import TokenFormatter from "../../TokenFormatter/component/TokenFormatter"; // Horizontal three-dot menu
+import {numberTextConverter} from "../../../utils/numberConverter"; // Horizontal three-dot menu
+
+// TODO Make Carmen adjust standard as Small and update with the new scaling code
+// TODO Update this ticker code because it is a old version
+// TODO add option to show or collapse zero - not a priority
 
 // FontAwesome Social Icon Mapping
-/**
- * An object representing a collection of social media icons.
- * The keys are strings corresponding to the name or identifier of social media platforms or links,
- * and the values are icons associated with those platforms.
- * This structure is used to map a platform name to its corresponding icon representation.
- */
 const socialIcons: { [key: string]: any } = {
     x: faXTwitter,
     telegram: faTelegram,
@@ -36,37 +33,12 @@ const socialIcons: { [key: string]: any } = {
     reddit: faReddit,
 };
 
-/**
- * Represents the properties for the Ticker component. This interface is used to define the
- * configurable options and data requirements for the Ticker implementation.
- *
- * @interface
- * @property {TickerData} data - The Ticker data to be displayed, including token or symbol information.
- * @property {boolean} [showWalletBalance] - Optional flag indicating whether to display the wallet balance.
- * @property {number} [maxTokenLength] - Optional maximum allowed length for a token or symbol value.
- */
 interface TickerProps {
     data: TickerData;
     showWalletBalance?: boolean; // Optional flag to show Wallet Balance
-    maxTokenLength?: number
 }
 
-/**
- * TickerGUI is a functional React component responsible for rendering a ticker UI for cryptocurrency tokens.
- * It displays token information, price updates, social media links, user wallet balance, and additional stats
- * like market cap and liquidity. The component includes mechanisms for price flash effects and a social links dropdown.
- *
- * @type {React.FC<TickerProps>}
- *
- * @param {TickerProps} data - Contains the token and user-specific information including token price,
- *                             user wallet balance, and other metadata necessary for rendering.
- *
- * @param {boolean} [showWalletBalance=true] - Determines whether the user's wallet balance should be displayed
- *                                             in the UI. Defaults to true.
- *
- * @param {number} [maxTokenLength=16] - Specifies the maximum length of the formatted token values. Defaults to 16.
- */
-const TickerGUI: React.FC<TickerProps> = ({ data, showWalletBalance = true, maxTokenLength = 16 }) => {
+const Ticker: React.FC<TickerProps> = ({ data, showWalletBalance = true }) => {
     const [prevPrice, setPrevPrice] = useState<number>(data.tokenPrice);
     const [flashClass, setFlashClass] = useState(styles.priceNeutral);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -128,8 +100,8 @@ const TickerGUI: React.FC<TickerProps> = ({ data, showWalletBalance = true, maxT
             {/* Price & Social Icons Section */}
             <div className={styles.priceRow}>
                 {/* Price */}
-                <span className={`${styles.price} ${flashClass}`}>
-                    $ <TokenFormatter value={data.tokenPrice} size={"x-large"} maxLength={maxTokenLength}/>
+                <span className={`${styles.price} ${flashClass} ml-auto`}>
+                    ${data.tokenPrice.toFixed(6)}
                 </span>
 
                 {/* Social Icons */}
@@ -188,8 +160,8 @@ const TickerGUI: React.FC<TickerProps> = ({ data, showWalletBalance = true, maxT
                 {/* Wallet Column (Only Token Amount) */}
                 {showWalletBalance && (
                     <div className={styles.statsColumn}>
-                        <span className={styles.statsTitle}>Wallet</span>
-                        <span className={styles.statsValue}>{numberTextConverter(data.userTokenBalance)} {data.tokenPrimary.tokenSymbol}</span>
+                        <span className={styles.statsTitle}>Total Supply</span>
+                        <span className={styles.statsValue}>{numberTextConverter(data.totalSupply)}</span>
                     </div>
                 )}
             </div>
@@ -197,4 +169,4 @@ const TickerGUI: React.FC<TickerProps> = ({ data, showWalletBalance = true, maxT
     );
 };
 
-export default TickerGUI;
+export default Ticker;

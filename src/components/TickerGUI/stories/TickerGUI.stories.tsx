@@ -1,19 +1,29 @@
-import { Meta, StoryFn } from "@storybook/react";
 import React, { useState } from "react";
-import { TickerData } from "../models/tickerModel";
+import { Meta, StoryFn } from "@storybook/react";
 import Ticker from "../components/Ticker";
+import { TickerData } from "../models/tickerModel";
 
-// ✅ **Component Metadata**
-const meta: Meta<typeof Ticker> = {
-    title: "Tickers/TickerGUI",
+// ✅ Define the props manually
+interface TickerProps {
+    data: TickerData;
+    showWalletBalance?: boolean;
+}
+
+// ✅ Define Storybook Metadata
+const meta: Meta<TickerProps> = {
+    title: "Components/Ticker",
     component: Ticker,
     parameters: {
         layout: "centered",
     },
+    argTypes: {
+        showWalletBalance: { control: "boolean" },
+    },
 };
+
 export default meta;
 
-// ✅ **Base Mock Data**
+// ✅ Sample Data for Ticker
 const baseMockData: TickerData = {
     tokenPrimary: {
         tokenImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/100BY100/pepperbird_coin_logo_100x100.png",
@@ -38,7 +48,8 @@ const baseMockData: TickerData = {
     liquidity: 69100,
     circulatingMarketCap: 119800,
     marketCap: 119800,
-    userTokenBalance: 100034543535,
+    userTokenBalance: 1000,
+    totalSupply: 75000000000000,
     socialLinks: {
         x: "https://twitter.com/pepperbird",
         telegram: "https://t.me/pepperbird",
@@ -48,18 +59,52 @@ const baseMockData: TickerData = {
     },
 };
 
-// ✅ **Story: Ticker WITHOUT Wallet Balance**
-export const NoWalletFeature: StoryFn<typeof Ticker> = () => <Ticker data={baseMockData} showWalletBalance={false} />;
+// ✅ Define a Type-Safe Story Template
+const Template: StoryFn<TickerProps> = (args) => <Ticker {...args} />;
 
-// ✅ **Story: Ticker WITH Wallet Balance**
-export const WithWalletFeature: StoryFn<typeof Ticker> = () => (
-    <Ticker data={{ ...baseMockData, userTokenBalance: 1000 }} showWalletBalance={true} />
-);
+// ✅ **Story: Default Ticker**
+export const DefaultTicker = Template.bind({});
+DefaultTicker.args = {
+    data: baseMockData,
+    showWalletBalance: true,
+} as TickerProps;
 
-// ✅ **Story: Ticker WITH Wallet Feature ON, but ZERO Balance (Wallet section hidden)**
-export const WithZeroWallet: StoryFn<typeof Ticker> = () => (
-    <Ticker data={{ ...baseMockData, userTokenBalance: 0 }} showWalletBalance={true} />
-);
+// ✅ **Story: Ticker Without Wallet Balance**
+export const NoWalletBalance = Template.bind({});
+NoWalletBalance.args = {
+    data: baseMockData,
+    showWalletBalance: false,
+} as TickerProps;
+
+// ✅ **Story: Ticker with a High Price**
+export const HighPriceTicker = Template.bind({});
+HighPriceTicker.args = {
+    data: {
+        ...baseMockData,
+        tokenPrice: 5000.75, // Higher Price
+    },
+    showWalletBalance: true,
+} as TickerProps;
+
+// ✅ **Story: Ticker with a Very Low Price**
+export const LowPriceTicker = Template.bind({});
+LowPriceTicker.args = {
+    data: {
+        ...baseMockData,
+        tokenPrice: 0.00003421, // Very small price
+    },
+    showWalletBalance: true,
+} as TickerProps;
+
+// ✅ **Story: Ticker with No Market Cap**
+export const NoMarketCap = Template.bind({});
+NoMarketCap.args = {
+    data: {
+        ...baseMockData,
+        marketCap: 0,
+    },
+    showWalletBalance: true,
+} as TickerProps;
 
 // ✅ **Story: Manual Price Change (Ensures UI updates with price flashing)**
 export const ManualPriceTest: StoryFn<typeof Ticker> = () => {

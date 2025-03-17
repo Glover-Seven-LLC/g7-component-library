@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { TickerModel, TickerData } from "../models/tickerModel";
+import {TickerData, TickerModel} from "../models/tickerModel";
+
 
 export function useTickerController(initialData: TickerData) {
     const [ticker, setTicker] = useState(new TickerModel(initialData));

@@ -1,11 +1,11 @@
 .ticker {
-    background: linear-gradient(to bottom, #1E2233 50%, #141621 50%);
+    background: linear-gradient(to bottom, #1E2233 55%, #141621 45%);
     padding: 12px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     color: white;
-    width: 350px;
+    width: 250px;
     font-family: Arial, sans-serif;
     position: relative;
 }
@@ -27,14 +27,14 @@
 }
 
 .tokenImg {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
 }
 
 .contractLink {
     margin-left: 4px;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 8px;
     cursor: pointer;
     padding-right: 4px;
     color: #00AEEF;
@@ -51,26 +51,26 @@
 }
 
 .tokenPair {
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 6px;
+    gap: 3px;
+    margin-bottom: 4px;
 }
 
 .chainDetails {
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-size: 12px;
+    gap: 4px;
+    font-size: 8px;
     color: #ccc;
     margin-left: -3px;
 }
 
 .chainLogo {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
 }
 
 /* Price Section Layout */
@@ -86,23 +86,23 @@
     display: flex;
     justify-content: space-between; /* Price on left, Socials on right */
     align-items: center;
-    margin-top: 10px;
+    margin-top: 6px;
 }
 
 /* Price Styling */
 .price {
-    font-size: 35px;
+    font-size: 16px;
     font-weight: bold;
-    text-align: left;
+    text-align: right;
     transition: color 0.3s ease;
 }
 
 /* Wallet Balance (Appears Below Price & Socials) */
 .walletBalance {
-    font-size: 20px;
+    font-size: 12px;
     color: #AAA; /* Light gray for contrast */
-    margin-top: 4px;
-    text-align: left;
+    margin-top: 8px;
+    text-align: center;
 }
 .priceNeutral {
     color: white;
@@ -126,7 +126,7 @@
 
 /* Individual Social Icons */
 .socialIcon {
-    font-size: 18px;
+    font-size: 10px;
     text-decoration: none;
     color: white;
     transition: color 0.3s ease;
@@ -141,7 +141,7 @@
     background: none;
     border: none;
     color: white;
-    font-size: 18px;
+    font-size: 10px;
     cursor: pointer;
     padding: 4px;
 }
@@ -163,12 +163,12 @@
 .tickerStats {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
-    margin-top: 10px;
+    font-size: 7px;
+    margin-top: 8px;
 }
 /* Wallet Value (small USD amount below tokens) */
 .walletValue {
-    font-size: 12px;
+    font-size: 6px;
     color: #AAA; /* Light gray for contrast */
 }
 /* Price & Wallet Section */
@@ -185,7 +185,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 2px;
     padding-top: 10px;
     border-top: 1px solid #333;
 }
@@ -202,14 +202,14 @@
 
 /* Stats Title */
 .statsTitle {
-    font-size: 12px;
+    font-size: 9px;
     color: #AAA;
     text-transform: uppercase;
 }
 
 /* Stats Value */
 .statsValue {
-    font-size: 16px;
+    font-size: 11px;
     font-weight: bold;
     color: white;
 }
