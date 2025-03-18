@@ -1,17 +1,31 @@
 import Highcharts from "highcharts/highstock";
+import IndicatorsAll from "highcharts/indicators/indicators-all";
+import DragPanes from "highcharts/modules/drag-panes";
+import AnnotationsAdvanced from "highcharts/modules/annotations-advanced";
+import FullScreen from "highcharts/modules/full-screen";
+import StockTools from "highcharts/modules/stock-tools";
+import HollowCandlestick from "highcharts/modules/hollowcandlestick";
+import HeikinAshi from "highcharts/modules/heikinashi";
 
-// ✅ Load Highcharts modules dynamically (Fixes Vite ESM issue)
+/**
+ * ✅ Load Highcharts modules dynamically (Fixes Vite ESM issues)
+ */
 export const loadHighchartsModules = () => {
-    import("highcharts/indicators/indicators-all").then(m => m.default(Highcharts));
-    import("highcharts/modules/drag-panes").then(m => m.default(Highcharts));
-    import("highcharts/modules/annotations-advanced").then(m => m.default(Highcharts));
-    import("highcharts/modules/full-screen").then(m => m.default(Highcharts));
-    import("highcharts/modules/stock-tools").then(m => m.default(Highcharts));
-    import("highcharts/modules/hollowcandlestick").then(m => m.default(Highcharts));
-    import("highcharts/modules/heikinashi").then(m => m.default(Highcharts));
+    // ✅ Check if the candlestick module is loaded using getOptions().plotOptions
+    if (!Highcharts.getOptions().plotOptions?.candlestick) {
+        IndicatorsAll(Highcharts);
+        DragPanes(Highcharts);
+        AnnotationsAdvanced(Highcharts);
+        FullScreen(Highcharts);
+        StockTools(Highcharts);
+        HollowCandlestick(Highcharts);
+        HeikinAshi(Highcharts);
+    }
 };
 
-// ✅ Generate Fake OHLCV Data
+/**
+ * ✅ Generate Fake OHLCV Data (For Default Mode)
+ */
 export const generateFakeData = (numPoints = 50) => {
     const data = [];
     let basePrice = 100;

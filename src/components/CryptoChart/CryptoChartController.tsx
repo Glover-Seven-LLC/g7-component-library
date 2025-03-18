@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { generateFakeData, loadHighchartsModules } from "./CryptoChartModel";
-import { LiveDataEntry } from "./LiveDataEntryModel";
 import { TokenData } from "./TokenDataTypes";
 
-/**
- * Interface for CryptoChart props
- */
 export interface CryptoChartProps {
     chartType?: "line" | "candlestick";
     showVolume?: boolean;
@@ -19,13 +15,10 @@ export interface CryptoChartProps {
     greyscaleBackgroundLogo?: boolean;
     chartWidth?: number;
     chartHeight?: number;
-    liveData?: LiveDataEntry[]; // ✅ Optional live data (App mode only)
-    tokenData?: TokenData; // ✅ Optional token metadata override
+    tokenData?: TokenData;
 }
 
-/**
- * Default token data
- */
+// ✅ Default Token Metadata
 export const defaultTokenData: TokenData = {
     tokenImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/100BY100/pepperbird_coin_logo_100x100.png",
     tokenName: "Pepperbird",
@@ -35,9 +28,6 @@ export const defaultTokenData: TokenData = {
     backgroundImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/100BY100/pepperbird_coin_logo_100x100.png",
 };
 
-/**
- * Hook to manage CryptoChart data
- */
 export const useCryptoChartController = ({
                                              chartType = "line",
                                              showVolume = false,
@@ -49,44 +39,18 @@ export const useCryptoChartController = ({
                                              showTokenHeader = false,
                                              showBackgroundLogo = false,
                                              greyscaleBackgroundLogo = false,
-                                             liveData,
                                              tokenData,
                                          }: CryptoChartProps) => {
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<any[]>(generateFakeData(100));
     const [range, setRange] = useState<number[]>([0, 50]);
-    const [tokenInfo, setTokenInfo] = useState<TokenData>(defaultTokenData);
+    const [tokenInfo, setTokenInfo] = useState<TokenData>(tokenData || defaultTokenData);
 
     useEffect(() => {
         loadHighchartsModules();
-
-        // ✅ Always default to generated data unless liveData is explicitly provided
-        if (liveData && liveData.length > 0) {
-            // ✅ Validate live data before using it
-            const isValid = liveData.every(
-                (item) =>
-                    typeof item.timestamp === "number" &&
-                    typeof item.open === "number" &&
-                    typeof item.high === "number" &&
-                    typeof item.low === "number" &&
-                    typeof item.close === "number" &&
-                    typeof item.volume === "number"
-            );
-
-            if (isValid) {
-                console.info("✅ Using Live Data");
-                setData(liveData);
-            } else {
-                console.warn("⚠️ Invalid Live Data - Falling back to Generated Data");
-                setData(generateFakeData(100));
-            }
-        } else {
-            console.info("✅ No Live Data - Using Generated Data");
-            setData(generateFakeData(100));
-        }
-
-        // ✅ Use provided token metadata if available
+        setData(generateFakeData(100));
+        setRange([50, 100]);
         setTokenInfo(tokenData || defaultTokenData);
-    }, [liveData, tokenData]);
+    }, [tokenData]);
 
     return {
         data,
