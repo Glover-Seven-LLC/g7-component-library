@@ -25,65 +25,69 @@ const meta: Meta<typeof CryptoChart> = {
         showSlider: {
             control: "boolean",
         },
+        showDragPane: {
+            control: "boolean",
+        },
+        showNavigator: {
+            control: "boolean",
+        },
     },
 };
 
 export default meta;
 
-// ✅ Define Themes
-const darkTheme = createTheme({ palette: { mode: "dark" } });
-
 // ✅ Story Template
 const Template: StoryFn<CryptoChartProps> = (args) => <CryptoChart {...args} />;
 
-// ✅ **Story: Default Line Chart**
-export const LineChart = Template.bind({});
-LineChart.args = {
-    chartType: "line",
-};
-
-// ✅ **Story: Default Candlestick Chart**
-export const CandlestickChart = Template.bind({});
-CandlestickChart.args = {
+// ✅ **Story: Candlestick Chart with Navigator**
+export const CandlestickWithNavigator = Template.bind({});
+CandlestickWithNavigator.args = {
     chartType: "candlestick",
+    showNavigator: true,
 };
 
-// ✅ **Story: Line Chart with Volume**
-export const LineChartWithVolume = Template.bind({});
-LineChartWithVolume.args = {
+// ✅ **Story: Line Chart with Navigator**
+export const LineWithNavigator = Template.bind({});
+LineWithNavigator.args = {
     chartType: "line",
-    showVolume: true,
+    showNavigator: true,
 };
 
-// ✅ **Story: Candlestick Chart with Volume**
-export const CandlestickChartWithVolume = Template.bind({});
-CandlestickChartWithVolume.args = {
+// ✅ **Story: Candlestick Chart without Navigator (No Grey Bar)**
+export const CandlestickWithoutNavigator = Template.bind({});
+CandlestickWithoutNavigator.args = {
     chartType: "candlestick",
-    showVolume: true,
+    showNavigator: false, // ✅ No grey bar
 };
 
-// ✅ **Story: Line Chart with Range Selector & Slider**
-export const LineChartWithRangeAndSlider = Template.bind({});
-LineChartWithRangeAndSlider.args = {
+// ✅ **Story: Line Chart without Navigator (No Grey Bar)**
+export const LineWithoutNavigator = Template.bind({});
+LineWithoutNavigator.args = {
     chartType: "line",
-    showRangeSelector: true,
-    showSlider: true,
+    showNavigator: false, // ✅ No grey bar
 };
 
 // ✅ **Story: Candlestick Chart with All Features Enabled**
-export const CandlestickChartFullFeatures = Template.bind({});
-CandlestickChartFullFeatures.args = {
+export const CandlestickFullFeatures = Template.bind({});
+CandlestickFullFeatures.args = {
     chartType: "candlestick",
     showVolume: true,
     showRangeSelector: true,
     showSlider: true,
+    showDragPane: true,
+    showNavigator: true,
 };
 
-// ✅ **Dark Mode Stories**
-export const DarkModeLineChart = Template.bind({});
-DarkModeLineChart.args = { chartType: "line" };
-DarkModeLineChart.decorators = [(Story) => <ThemeProvider theme={darkTheme}><Story /></ThemeProvider>];
+// ✅ **Story: Line Chart with Fill (Shading)**
+export const LineChartFilled = Template.bind({});
+LineChartFilled.args = {
+    chartType: "line",
+    fillLineChart: true, // ✅ Fill area under the line chart
+};
 
-export const DarkModeCandlestickChart = Template.bind({});
-DarkModeCandlestickChart.args = { chartType: "candlestick" };
-DarkModeCandlestickChart.decorators = [(Story) => <ThemeProvider theme={darkTheme}><Story /></ThemeProvider>];
+// ✅ **Story: Line Chart with Right-Side Price Labels**
+export const LineChartRightAxis = Template.bind({});
+LineChartRightAxis.args = {
+    chartType: "line",
+    showNavigator: false,
+};

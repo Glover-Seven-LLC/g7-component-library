@@ -11,9 +11,20 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                                                      showVolume = false,
                                                      showRangeSelector = false,
                                                      showSlider = false,
+                                                     showDragPane = false,
+                                                     showNavigator = false,
+                                                     fillLineChart = false, // ✅ New Prop
                                                  }) => {
     const theme = useTheme();
-    const { data, range, handleRangeChange } = useCryptoChartController({ chartType, showVolume, showRangeSelector, showSlider });
+    const { data, range, handleRangeChange } = useCryptoChartController({
+        chartType,
+        showVolume,
+        showRangeSelector,
+        showSlider,
+        showDragPane,
+        showNavigator,
+        fillLineChart,
+    });
     const chartRef = useRef<HighchartsReact.RefObject>(null);
 
     // Slice data based on range
@@ -34,6 +45,14 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
             enabled: showRangeSelector, // ✅ Show only if enabled
             selected: 1,
         },
+        navigator: {
+            enabled: showNavigator, // ✅ Show navigator only if enabled
+            height: showNavigator ? 40 : 0, // ✅ Ensure it completely hides when disabled
+            margin: showNavigator ? 10 : 0,
+        },
+        scrollbar: {
+            enabled: showNavigator, // ✅ Disable scrollbar when navigator is off
+        },
         title: {
             text: chartType === "candlestick" ? "Candlestick Chart" : "Line Chart",
             style: { color: theme.palette.text.primary },
@@ -45,14 +64,24 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
             {
                 title: { text: "Price" },
                 height: showVolume ? "70%" : "100%", // ✅ Adjust height if volume is disabled
-                lineWidth: 2,
+                lineWidth: 0, // ✅ Remove left axis line
+                gridLineWidth: 0, // ✅ Remove grid lines for a cleaner look
+                labels: {
+                    enabled: true, // ✅ Keep labels, but remove axis line
+                    style: { color: theme.palette.text.primary },
+                },
+                opposite: true, // ✅ Move price to the right side
+                startOnTick: false,
+                endOnTick: false,
+                moveHandles: showDragPane ? { enabled: true } : undefined, // ✅ Enable Drag Pane if enabled
             },
             showVolume && {
                 title: { text: "Volume" },
                 top: "75%",
                 height: "25%",
                 offset: 0,
-                lineWidth: 2,
+                lineWidth: 0, // ✅ Remove left axis line for volume too
+                gridLineWidth: 0, // ✅ Remove grid lines for a cleaner look
             },
         ].filter(Boolean) as Highcharts.YAxisOptions[], // ✅ Filter out undefined yAxis values
         tooltip: {
@@ -63,6 +92,15 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                 type: chartType, // ✅ Use chartType prop
                 name: "Crypto Price",
                 data: chartType === "candlestick" ? ohlc : lineData, // ✅ Use OHLC for candlestick, close price for line
+                color: "#00aaff",
+                ...(chartType === "line" && fillLineChart
+                    ? {
+                        type: "area", // ✅ Use area chart to enable shading
+                        fillOpacity: 0.2, // ✅ Adjust transparency
+                        threshold: null,
+                        lineWidth: 2,
+                    }
+                    : {}),
             },
             showVolume && {
                 type: "column",
