@@ -9,8 +9,20 @@ export interface CryptoChartProps {
     showSlider?: boolean; // ✅ Default to false
     showDragPane?: boolean; // ✅ Default to false
     showNavigator?: boolean; // ✅ Default to false
-    fillLineChart?: boolean; // ✅ Default to false (NEW) - Shades the area under the line chart
+    fillLineChart?: boolean; // ✅ Default to false
+    showTokenHeader?: boolean; // ✅ Default to false
+    showBackgroundLogo?: boolean; // ✅ NEW: Show faded logo behind chart
 }
+
+// ✅ Define Default Token Info
+export const defaultTokenData = {
+    tokenImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/100BY100/pepperbird_coin_logo_100x100.png",
+    tokenName: "Pepperbird",
+    tokenPair: "PBIRD/BNB",
+    tokenContractURL: "https://bscscan.com/address/0x1A35FaCe19Ed7229d01627b0a4243FaD826dEa54#code",
+    currentPrice: 0.1597,
+    backgroundImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/512x512/pepperbird_coin_logo_512x512.png",
+};
 
 export const useCryptoChartController = ({
                                              chartType = "line",
@@ -19,7 +31,9 @@ export const useCryptoChartController = ({
                                              showSlider = false,
                                              showDragPane = false,
                                              showNavigator = false,
-                                             fillLineChart = false, // ✅ New prop
+                                             fillLineChart = false,
+                                             showTokenHeader = false,
+                                             showBackgroundLogo = false,
                                          }: CryptoChartProps) => {
     const [data, setData] = useState<any[]>([]);
     const [range, setRange] = useState<number[]>([0, 50]);
@@ -46,5 +60,8 @@ export const useCryptoChartController = ({
         showDragPane,
         showNavigator,
         fillLineChart,
+        showTokenHeader,
+        showBackgroundLogo,
+        tokenData: defaultTokenData,
     };
 };

@@ -91,3 +91,34 @@ LineChartRightAxis.args = {
     chartType: "line",
     showNavigator: false,
 };
+
+// ✅ **Story: Candlestick Chart with Token Header**
+export const CandlestickWithHeader = Template.bind({});
+CandlestickWithHeader.args = {
+    chartType: "candlestick",
+    showTokenHeader: true,
+};
+
+// ✅ **Story: Line Chart with Token Header**
+export const LineChartWithHeader = Template.bind({});
+LineChartWithHeader.args = {
+    chartType: "line",
+    showTokenHeader: true,
+};
+
+// ✅ **Story: Line Chart with Token Header & Background Logo**
+export const LineChartWithLogo = Template.bind({});
+LineChartWithLogo.args = {
+    chartType: "line",
+    showTokenHeader: true,
+    showBackgroundLogo: true, // ✅ Show faded logo
+};
+
+// ✅ **Story: Candlestick Chart with Token Header & Background Logo**
+export const CandlestickWithLogo = Template.bind({});
+CandlestickWithLogo.args = {
+    chartType: "candlestick",
+    showTokenHeader: true,
+    showBackgroundLogo: true, // ✅ Show faded logo
+};
+

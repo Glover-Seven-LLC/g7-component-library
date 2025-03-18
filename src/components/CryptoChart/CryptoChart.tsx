@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useTheme } from "@mui/material/styles";
-import { Box, Slider, Typography } from "@mui/material";
+import { Box, Slider, Typography, IconButton } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import { useCryptoChartController, CryptoChartProps } from "./CryptoChartController";
@@ -13,10 +14,12 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                                                      showSlider = false,
                                                      showDragPane = false,
                                                      showNavigator = false,
-                                                     fillLineChart = false, // ✅ New Prop
+                                                     fillLineChart = false,
+                                                     showTokenHeader = false,
+                                                     showBackgroundLogo = false,
                                                  }) => {
     const theme = useTheme();
-    const { data, range, handleRangeChange } = useCryptoChartController({
+    const { data, range, handleRangeChange, tokenData } = useCryptoChartController({
         chartType,
         showVolume,
         showRangeSelector,
@@ -24,6 +27,8 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
         showDragPane,
         showNavigator,
         fillLineChart,
+        showTokenHeader,
+        showBackgroundLogo,
     });
     const chartRef = useRef<HighchartsReact.RefObject>(null);
 
@@ -32,71 +37,56 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
 
     // Prepare OHLC and volume data separately
     const ohlc = displayedData.map((item) => [item[0], item[1], item[2], item[3], item[4]]);
-    const lineData = displayedData.map((item) => [item[0], item[4]]); // ✅ Line chart uses closing price
+    const lineData = displayedData.map((item) => [item[0], item[4]]);
     const volume = displayedData.map((item) => [item[0], item[5]]);
 
     const options: Highcharts.Options = {
         chart: {
             backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
             height: 400,
-            width: 750,
         },
         rangeSelector: {
-            enabled: showRangeSelector, // ✅ Show only if enabled
+            enabled: showRangeSelector,
             selected: 1,
         },
         navigator: {
-            enabled: showNavigator, // ✅ Show navigator only if enabled
-            height: showNavigator ? 40 : 0, // ✅ Ensure it completely hides when disabled
-            margin: showNavigator ? 10 : 0,
+            enabled: showNavigator,
         },
         scrollbar: {
-            enabled: showNavigator, // ✅ Disable scrollbar when navigator is off
+            enabled: showNavigator,
         },
         title: {
-            text: chartType === "candlestick" ? "Candlestick Chart" : "Line Chart",
-            style: { color: theme.palette.text.primary },
+            text: "",
         },
         xAxis: {
             type: "datetime",
         },
         yAxis: [
             {
-                title: { text: "Price" },
-                height: showVolume ? "70%" : "100%", // ✅ Adjust height if volume is disabled
-                lineWidth: 0, // ✅ Remove left axis line
-                gridLineWidth: 0, // ✅ Remove grid lines for a cleaner look
+                title: { text: "" },
+                height: showVolume ? "70%" : "100%",
+                lineWidth: 0,
+                gridLineWidth: 0,
                 labels: {
-                    enabled: true, // ✅ Keep labels, but remove axis line
+                    enabled: true,
                     style: { color: theme.palette.text.primary },
                 },
-                opposite: true, // ✅ Move price to the right side
-                startOnTick: false,
-                endOnTick: false,
-                moveHandles: showDragPane ? { enabled: true } : undefined, // ✅ Enable Drag Pane if enabled
+                opposite: true,
             },
-            showVolume && {
-                title: { text: "Volume" },
-                top: "75%",
-                height: "25%",
-                offset: 0,
-                lineWidth: 0, // ✅ Remove left axis line for volume too
-                gridLineWidth: 0, // ✅ Remove grid lines for a cleaner look
-            },
-        ].filter(Boolean) as Highcharts.YAxisOptions[], // ✅ Filter out undefined yAxis values
+        ],
         tooltip: {
             split: true,
         },
         series: [
             {
-                type: chartType, // ✅ Use chartType prop
+                type: chartType,
                 name: "Crypto Price",
-                data: chartType === "candlestick" ? ohlc : lineData, // ✅ Use OHLC for candlestick, close price for line
+                data: chartType === "candlestick" ? ohlc : lineData,
                 color: "#00aaff",
                 ...(chartType === "line" && fillLineChart
                     ? {
-                        type: "area", // ✅ Use area chart to enable shading
-                        fillOpacity: 0.2, // ✅ Adjust transparency
+                        type: "area",
+                        fillOpacity: 0.2,
                         threshold: null,
                         lineWidth: 2,
                     }
@@ -108,25 +98,36 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                 data: volume,
                 yAxis: 1,
             },
-        ].filter(Boolean) as Highcharts.SeriesOptionsType[], // ✅ Filter out undefined series
+        ].filter(Boolean) as Highcharts.SeriesOptionsType[],
     };
 
     return (
         <Box className={`${styles.chartContainer} ${theme.palette.mode === "dark" ? styles.dark : ""}`}>
-            {/* Highcharts Chart */}
-            <Box className={styles.chartWrapper}>
-                <HighchartsReact highcharts={Highcharts} constructorType={"stockChart"} options={options} ref={chartRef} />
-            </Box>
-
-            {/* Slider for Selecting Data Range (Optional) */}
-            {showSlider && (
-                <Box className={styles.rangeSelector}>
-                    <Typography variant="body2" className={styles.typography}>
-                        Select Date Range:
-                    </Typography>
-                    <Slider value={range} onChange={handleRangeChange} min={0} max={data.length} step={1} valueLabelDisplay="auto" />
+            {showTokenHeader && (
+                <Box className={styles.tokenHeader}>
+                    <Box className="leftSection">
+                        <img src={tokenData.tokenImageURL} alt="Token" className={styles.tokenIcon} />
+                        <Typography className={styles.tokenName}>{tokenData.tokenName}</Typography>
+                        <Typography className={styles.tokenPair}>PAIR: {tokenData.tokenPair}</Typography>
+                        <IconButton href={tokenData.tokenContractURL} target="_blank" className={styles.contractIcon}>
+                            <LinkIcon />
+                        </IconButton>
+                    </Box>
+                    <Typography className={styles.tokenPrice}>${tokenData.currentPrice.toFixed(4)}</Typography>
                 </Box>
             )}
+
+            <Box className={styles.chartWrapper}>
+                {showBackgroundLogo && (
+                    <img src={tokenData.backgroundImageURL} alt="Background Logo" className={styles.backgroundLogo} />
+                )}
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    constructorType="stockChart"
+                    options={options}
+                    ref={chartRef}
+                />
+            </Box>
         </Box>
     );
 };
