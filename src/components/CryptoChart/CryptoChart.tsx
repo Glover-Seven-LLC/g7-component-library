@@ -39,20 +39,28 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
 
     useEffect(() => {
         if (chartRef.current?.chart) {
-            // ✅ Type-safe filtering
+            // ✅ Select correct data structure for chart type
             const series: Highcharts.SeriesOptionsType[] = [
-                {
-                    type: chartType,
-                    name: "Crypto Price",
-                    data: data.map((item) => [item[0], item[4]]),
-                    color: "#00aaff",
-                },
+                chartType === "candlestick"
+                    ? {
+                        type: "candlestick",
+                        name: "Crypto Price",
+                        data: data.map((item) => [item[0], item[1], item[2], item[3], item[4]]), // [timestamp, open, high, low, close]
+                        color: "#00aaff",
+                    }
+                    : {
+                        type: fillLineChart ? "area" : "line",
+                        name: "Crypto Price",
+                        data: data.map((item) => [item[0], item[4]]), // [timestamp, close]
+                        color: "#00aaff",
+                        ...(fillLineChart ? { fillOpacity: 0.2, threshold: null, lineWidth: 2 } : {}),
+                    },
                 ...(showVolume
                     ? [
                         {
                             type: "column",
                             name: "Volume",
-                            data: data.map((item) => [item[0], item[5]]),
+                            data: data.map((item) => [item[0], item[5]]), // [timestamp, volume]
                             yAxis: 1,
                             color: "#ff9900",
                         } as Highcharts.SeriesOptionsType,
@@ -64,7 +72,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                 series,
             });
         }
-    }, [chartType, data, showVolume]);
+    }, [chartType, data, showVolume, fillLineChart]);
 
     return (
         <div
@@ -132,12 +140,20 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                                 : []),
                         ],
                         series: [
-                            {
-                                type: chartType,
-                                name: "Crypto Price",
-                                data: data.map((item) => [item[0], item[4]]),
-                                color: "#00aaff",
-                            },
+                            chartType === "candlestick"
+                                ? {
+                                    type: "candlestick",
+                                    name: "Crypto Price",
+                                    data: data.map((item) => [item[0], item[1], item[2], item[3], item[4]]),
+                                    color: "#00aaff",
+                                }
+                                : {
+                                    type: fillLineChart ? "area" : "line",
+                                    name: "Crypto Price",
+                                    data: data.map((item) => [item[0], item[4]]),
+                                    color: "#00aaff",
+                                    ...(fillLineChart ? { fillOpacity: 0.2, threshold: null, lineWidth: 2 } : {}),
+                                },
                             ...(showVolume
                                 ? [
                                     {
