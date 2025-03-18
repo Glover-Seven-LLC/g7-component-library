@@ -1,14 +1,13 @@
 /* ✅ Main Chart Container */
 .chartContainer {
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     height: 500px;
-    max-width: 100%;
     margin: auto;
-    padding: 16px;
+    padding: 0; /* ✅ Removed extra padding */
     border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    transition: background-color 0.3s ease-in-out;
+    box-shadow: none; /* ✅ Removed paper effect */
+    background-color: transparent; /* ✅ Fully transparent */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -22,12 +21,9 @@
 .chartWrapper {
     position: relative;
     width: 100%;
-    height: 100%; /* ✅ Ensure full height for Highcharts */
-    min-height: 400px; /* ✅ Prevents collapse */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 400px;
 }
+
 
 /* ✅ Token Header: Aligned properly with spacing */
 .tokenHeader {
@@ -40,9 +36,20 @@
     margin-bottom: 8px;
     font-family: "Poppins", sans-serif;
     width: 100%;
-    box-sizing: border-box; /* ✅ Ensures padding does not affect width */
+    box-sizing: border-box;
 }
 
+.leftSection {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* ✅ Ensures it stretches */
+}
+
+/* ✅ Right Section (Price) */
+.rightSection {
+    display: flex;
+    align-items: center;
+}
 /* ✅ Left-aligned token details */
 .tokenHeader .leftSection {
     display: flex;
@@ -55,9 +62,8 @@
     align-items: center;
 }
 
-/* ✅ Token Image */
 .tokenIcon {
-    height: 24px; /* ✅ Matches text height */
+    height: 24px;
     width: 24px;
     margin-right: 10px;
 }
@@ -97,9 +103,9 @@
     transform: translate(-50%, -50%);
     width: 300px;
     height: 300px;
-    opacity: 0.1; /* ✅ Faded effect */
+    opacity: 0.1;
     pointer-events: none;
-    z-index: 0; /* ✅ Make sure it stays behind the chart */
+    z-index: 0;
 }
 
 /* ✅ Range Selector */
@@ -112,6 +118,19 @@
     color: #666;
     font-size: 14px;
     text-align: center;
+}
+
+/* ✅ Background Token Logo */
+.backgroundLogo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    opacity: 0.1; /* ✅ Faded effect */
+    pointer-events: none;
+    z-index: 0; /* ✅ Make sure it stays behind the chart */
 }
 
 /* ✅ Chart Type Selector */
