@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { generateFakeData, loadHighchartsModules } from "./CryptoChartModel";
+import { LiveDataEntry } from "./LiveDataEntryModel";
+import { TokenData } from "./TokenDataTypes";
 
-// ✅ Define Props Type
+/**
+ * Interface for CryptoChart props
+ */
 export interface CryptoChartProps {
     chartType?: "line" | "candlestick";
     showVolume?: boolean;
@@ -12,13 +16,17 @@ export interface CryptoChartProps {
     fillLineChart?: boolean;
     showTokenHeader?: boolean;
     showBackgroundLogo?: boolean;
-    greyscaleBackgroundLogo?: boolean; // ✅ New: Greyscale option
-    chartWidth?: number;  // ✅ New: Custom Chart Width
-    chartHeight?: number; // ✅ New: Custom Chart Height
+    greyscaleBackgroundLogo?: boolean;
+    chartWidth?: number;
+    chartHeight?: number;
+    liveData?: LiveDataEntry[]; // ✅ Optional live data (App mode only)
+    tokenData?: TokenData; // ✅ Optional token metadata override
 }
 
-// ✅ Define Default Token Info
-export const defaultTokenData = {
+/**
+ * Default token data
+ */
+export const defaultTokenData: TokenData = {
     tokenImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/100BY100/pepperbird_coin_logo_100x100.png",
     tokenName: "Pepperbird",
     tokenPair: "PBIRD/BNB",
@@ -27,6 +35,9 @@ export const defaultTokenData = {
     backgroundImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/100BY100/pepperbird_coin_logo_100x100.png",
 };
 
+/**
+ * Hook to manage CryptoChart data
+ */
 export const useCryptoChartController = ({
                                              chartType = "line",
                                              showVolume = false,
@@ -37,28 +48,51 @@ export const useCryptoChartController = ({
                                              fillLineChart = false,
                                              showTokenHeader = false,
                                              showBackgroundLogo = false,
-                                             greyscaleBackgroundLogo = false, // ✅ New prop added to controller
-                                             chartWidth = 1000,
-                                             chartHeight = 450,
+                                             greyscaleBackgroundLogo = false,
+                                             liveData,
+                                             tokenData,
                                          }: CryptoChartProps) => {
     const [data, setData] = useState<any[]>([]);
     const [range, setRange] = useState<number[]>([0, 50]);
+    const [tokenInfo, setTokenInfo] = useState<TokenData>(defaultTokenData);
 
     useEffect(() => {
         loadHighchartsModules();
-        setData(generateFakeData(100));
-        setRange([50, 100]);
-    }, []);
 
-    const handleRangeChange = (_: Event, newRange: number | number[]) => {
-        if (Array.isArray(newRange)) setRange(newRange);
-    };
+        // ✅ Always default to generated data unless liveData is explicitly provided
+        if (liveData && liveData.length > 0) {
+            // ✅ Validate live data before using it
+            const isValid = liveData.every(
+                (item) =>
+                    typeof item.timestamp === "number" &&
+                    typeof item.open === "number" &&
+                    typeof item.high === "number" &&
+                    typeof item.low === "number" &&
+                    typeof item.close === "number" &&
+                    typeof item.volume === "number"
+            );
+
+            if (isValid) {
+                console.info("✅ Using Live Data");
+                setData(liveData);
+            } else {
+                console.warn("⚠️ Invalid Live Data - Falling back to Generated Data");
+                setData(generateFakeData(100));
+            }
+        } else {
+            console.info("✅ No Live Data - Using Generated Data");
+            setData(generateFakeData(100));
+        }
+
+        // ✅ Use provided token metadata if available
+        setTokenInfo(tokenData || defaultTokenData);
+    }, [liveData, tokenData]);
 
     return {
         data,
         range,
         setRange,
-        handleRangeChange,
+        tokenData: tokenInfo,
         chartType,
         showVolume,
         showRangeSelector,
@@ -68,9 +102,6 @@ export const useCryptoChartController = ({
         fillLineChart,
         showTokenHeader,
         showBackgroundLogo,
-        greyscaleBackgroundLogo, // ✅ Ensures prop is included in return object
-        chartWidth,
-        chartHeight,
-        tokenData: defaultTokenData,
+        greyscaleBackgroundLogo,
     };
 };

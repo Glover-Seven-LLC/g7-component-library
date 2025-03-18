@@ -39,6 +39,12 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
 
     const chartRef = useRef<HighchartsReact.RefObject>(null);
 
+    // ✅ Ensure `tokenData` is never undefined
+    if (!tokenData) {
+        console.error("🚨 ERROR: tokenData is undefined!");
+        return null; // ✅ Prevents rendering a broken component
+    }
+
     // ✅ Slice data based on range
     const displayedData = data.slice(range[0], range[1]);
 
@@ -52,7 +58,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
             className={styles.chartContainer}
             style={{ "--chart-width": `${chartWidth}px`, "--chart-height": `${chartHeight}px` } as React.CSSProperties}
         >
-            {showTokenHeader && (
+            {showTokenHeader && tokenData && (
                 <div className={styles.tokenHeader}>
                     <div className={styles.leftSection}>
                         <img src={tokenData.tokenImageURL} alt="Token" className={styles.tokenIcon} />
@@ -69,7 +75,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
             )}
 
             <div className={styles.chartWrapper}>
-                {showBackgroundLogo && (
+                {showBackgroundLogo && tokenData.backgroundImageURL && (
                     <img
                         src={tokenData.backgroundImageURL}
                         alt="Background Logo"
@@ -85,49 +91,14 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                             backgroundColor: "transparent",
                             height: chartHeight - 50,
                         },
-                        rangeSelector: { enabled: showRangeSelector, selected: 1 },
-                        navigator: { enabled: showNavigator },
-                        scrollbar: { enabled: showNavigator },
-                        title: { text: "" },
-                        xAxis: { type: "datetime" },
-                        yAxis: [
-                            {
-                                title: { text: "" },
-                                height: showVolume ? "70%" : "100%",
-                                lineWidth: 0,
-                                gridLineWidth: 0,
-                                labels: { enabled: true, style: { color: theme.palette.text.primary } },
-                                opposite: true,
-                            },
-                            showVolume
-                                ? {
-                                    title: { text: "Volume" },
-                                    top: "75%",
-                                    height: "25%",
-                                    offset: 0,
-                                    lineWidth: 1,
-                                    labels: { enabled: true },
-                                }
-                                : null,
-                        ].filter(Boolean) as Highcharts.YAxisOptions[],
-                        tooltip: { split: true },
                         series: [
                             {
                                 type: chartType,
-                                name: "Crypto Price",
-                                data: chartType === "candlestick" ? ohlc : lineData,
+                                name: tokenData.tokenName,
+                                data: lineData,
                                 color: "#00aaff",
-                                ...(chartType === "line" && fillLineChart
-                                    ? { type: "area", fillOpacity: 0.2, threshold: null, lineWidth: 2 }
-                                    : {}),
                             },
-                            showVolume && {
-                                type: "column",
-                                name: "Volume",
-                                data: volume,
-                                yAxis: 1,
-                            },
-                        ].filter(Boolean) as Highcharts.SeriesOptionsType[],
+                        ],
                     }}
                     ref={chartRef}
                 />
