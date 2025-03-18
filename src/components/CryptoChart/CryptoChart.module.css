@@ -1,24 +1,19 @@
 /* ✅ Main Chart Container */
-/* ✅ Adjust Chart Width to Match the Header */
 .chartContainer {
-    width: 100%;
-    max-width: 1000px; /* ✅ Increased width for better proportions */
-    height: 450px;
+    width: var(--chart-width, 1000px); /* ✅ Uses default but can be overridden */
+    height: var(--chart-height, 450px); /* ✅ Uses default but can be overridden */
+    max-width: 100%;
     margin: auto;
 }
-
-
 
 .chartContainer.dark {
     background-color: #1e1e1e;
 }
 
-/* ✅ Ensures the chart aligns with the token header */
-/* ✅ Ensure Chart Fills the Header Width */
 .chartWrapper {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 100%;
 }
 
 

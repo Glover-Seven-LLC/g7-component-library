@@ -3,16 +3,19 @@ import { generateFakeData, loadHighchartsModules } from "./CryptoChartModel";
 
 // ✅ Define Props Type
 export interface CryptoChartProps {
-    chartType?: "line" | "candlestick"; // ✅ Default to "line"
-    showVolume?: boolean; // ✅ Default to false
-    showRangeSelector?: boolean; // ✅ Default to false
-    showSlider?: boolean; // ✅ Default to false
-    showDragPane?: boolean; // ✅ Default to false
-    showNavigator?: boolean; // ✅ Default to false
-    fillLineChart?: boolean; // ✅ Default to false
-    showTokenHeader?: boolean; // ✅ Default to false
-    showBackgroundLogo?: boolean; // ✅ NEW: Show faded logo behind chart
+    chartType?: "line" | "candlestick";
+    showVolume?: boolean;
+    showRangeSelector?: boolean;
+    showSlider?: boolean;
+    showDragPane?: boolean;
+    showNavigator?: boolean;
+    fillLineChart?: boolean;
+    showTokenHeader?: boolean;
+    showBackgroundLogo?: boolean;
+    chartWidth?: number;  // ✅ New: Custom Chart Width
+    chartHeight?: number; // ✅ New: Custom Chart Height
 }
+
 
 // ✅ Define Default Token Info
 export const defaultTokenData = {
