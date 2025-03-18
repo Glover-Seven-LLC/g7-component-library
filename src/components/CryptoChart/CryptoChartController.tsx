@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { generateFakeData, loadHighchartsModules } from "./CryptoChartModel";
 
-export const useCryptoChartController = () => {
+// ✅ Define Props Type
+export interface CryptoChartProps {
+    chartType?: "line" | "candlestick"; // ✅ Default to "line"
+}
+
+export const useCryptoChartController = ({ chartType = "line" }: CryptoChartProps) => {
     const [data, setData] = useState<any[]>([]);
     const [range, setRange] = useState<number[]>([0, 50]);
 
@@ -15,5 +20,5 @@ export const useCryptoChartController = () => {
         if (Array.isArray(newRange)) setRange(newRange);
     };
 
-    return { data, range, setRange, handleRangeChange };
+    return { data, range, setRange, handleRangeChange, chartType };
 };
