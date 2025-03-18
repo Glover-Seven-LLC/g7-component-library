@@ -21,7 +21,7 @@ export const defaultTokenData = {
     tokenPair: "PBIRD/BNB",
     tokenContractURL: "https://bscscan.com/address/0x1A35FaCe19Ed7229d01627b0a4243FaD826dEa54#code",
     currentPrice: 0.1597,
-    backgroundImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/512x512/pepperbird_coin_logo_512x512.png",
+    backgroundImageURL: "https://storage.googleapis.com/pepperbird-www/images/tokens/100BY100/pepperbird_coin_logo_100x100.png",
 };
 
 export const useCryptoChartController = ({

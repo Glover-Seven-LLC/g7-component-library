@@ -62,6 +62,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
             )}
 
             <div className={styles.chartWrapper}>
+                {/* ✅ Fix Background Logo Visibility */}
                 {showBackgroundLogo && (
                     <img src={tokenData.backgroundImageURL} alt="Background Logo" className={styles.backgroundLogo} />
                 )}
@@ -70,7 +71,7 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                     constructorType="stockChart"
                     options={{
                         chart: {
-                            backgroundColor: theme.palette.mode === "dark" ? "#1e1e1e" : "#fff",
+                            backgroundColor: "transparent", // ✅ Fix Logo Visibility
                             height: 400,
                         },
                         rangeSelector: {
