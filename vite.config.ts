@@ -20,7 +20,7 @@ export default defineConfig({
         },
     },
     optimizeDeps: {
-        include: ["@fortawesome/react-fontawesome"], // ✅ Ensures proper pre-bundling for FontAwesome
+        include: ["highcharts", "highcharts/highstock", "highcharts/modules/stock-tools","@fortawesome/react-fontawesome"], // ✅ Ensures proper pre-bundling for FontAwesome
     },
     build: {
         commonjsOptions: {
