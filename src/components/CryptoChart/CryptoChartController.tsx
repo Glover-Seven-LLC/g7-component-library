@@ -12,10 +12,10 @@ export interface CryptoChartProps {
     fillLineChart?: boolean;
     showTokenHeader?: boolean;
     showBackgroundLogo?: boolean;
+    greyscaleBackgroundLogo?: boolean; // ✅ New: Greyscale option
     chartWidth?: number;  // ✅ New: Custom Chart Width
     chartHeight?: number; // ✅ New: Custom Chart Height
 }
-
 
 // ✅ Define Default Token Info
 export const defaultTokenData = {
@@ -37,6 +37,9 @@ export const useCryptoChartController = ({
                                              fillLineChart = false,
                                              showTokenHeader = false,
                                              showBackgroundLogo = false,
+                                             greyscaleBackgroundLogo = false, // ✅ New prop added to controller
+                                             chartWidth = 1000,
+                                             chartHeight = 450,
                                          }: CryptoChartProps) => {
     const [data, setData] = useState<any[]>([]);
     const [range, setRange] = useState<number[]>([0, 50]);
@@ -65,6 +68,9 @@ export const useCryptoChartController = ({
         fillLineChart,
         showTokenHeader,
         showBackgroundLogo,
+        greyscaleBackgroundLogo, // ✅ Ensures prop is included in return object
+        chartWidth,
+        chartHeight,
         tokenData: defaultTokenData,
     };
 };

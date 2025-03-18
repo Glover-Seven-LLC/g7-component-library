@@ -1,9 +1,13 @@
 /* ✅ Main Chart Container */
 .chartContainer {
-    width: var(--chart-width, 1000px); /* ✅ Uses default but can be overridden */
-    height: var(--chart-height, 450px); /* ✅ Uses default but can be overridden */
+    width: var(--chart-width, 1000px); /* ✅ Default to 1000px */
+    height: var(--chart-height, 450px); /* ✅ Default to 450px */
     max-width: 100%;
     margin: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .chartContainer.dark {
@@ -89,19 +93,25 @@
     color: #00aaff;
 }
 
-/* ✅ Background Token Logo */
-/* ✅ Background Token Logo */
+
+/* ✅ Background Token Logo: Scales with Chart */
 .backgroundLogo {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px; /* ✅ Increased size for better visibility */
-    height: 400px;
-    opacity: 0.08; /* ✅ Keeps it subtly faded */
+    width: max(150px, calc(var(--chart-width) * 0.4));
+    height: max(150px, calc(var(--chart-height) * 0.4));
+    opacity: 0.08;
     pointer-events: none;
-    z-index: -1; /* ✅ Ensure it's behind the chart */
+    z-index: -1;
 }
+
+/* ✅ Greyscale Effect */
+.greyscale {
+    filter: grayscale(100%);
+}
+
 
 /* ✅ Range Selector */
 .rangeSelector {

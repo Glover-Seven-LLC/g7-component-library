@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useTheme } from "@mui/material/styles";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Typography, IconButton } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
@@ -17,11 +17,12 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                                                      fillLineChart = false,
                                                      showTokenHeader = false,
                                                      showBackgroundLogo = false,
-                                                     chartWidth = 1000, // ✅ Default Width
-                                                     chartHeight = 450, // ✅ Default Height
+                                                     greyscaleBackgroundLogo = false,
+                                                     chartWidth = 1000,
+                                                     chartHeight = 450,
                                                  }) => {
     const theme = useTheme();
-    const { data, range, handleRangeChange, tokenData } = useCryptoChartController({
+    const { data, range, tokenData } = useCryptoChartController({
         chartType,
         showVolume,
         showRangeSelector,
@@ -31,8 +32,20 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
         fillLineChart,
         showTokenHeader,
         showBackgroundLogo,
+        greyscaleBackgroundLogo,
+        chartWidth,
+        chartHeight,
     });
+
     const chartRef = useRef<HighchartsReact.RefObject>(null);
+
+    // ✅ Slice data based on range
+    const displayedData = data.slice(range[0], range[1]);
+
+    // ✅ Prepare OHLC and volume data separately
+    const ohlc = displayedData.map((item) => [item[0], item[1], item[2], item[3], item[4]]);
+    const lineData = displayedData.map((item) => [item[0], item[4]]);
+    const volume = displayedData.map((item) => [item[0], item[5]]);
 
     return (
         <div
@@ -57,7 +70,12 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
 
             <div className={styles.chartWrapper}>
                 {showBackgroundLogo && (
-                    <img src={tokenData.backgroundImageURL} alt="Background Logo" className={styles.backgroundLogo} />
+                    <img
+                        src={tokenData.backgroundImageURL}
+                        alt="Background Logo"
+                        className={styles.backgroundLogo}
+                        style={{ filter: greyscaleBackgroundLogo ? "grayscale(100%)" : "none" }} // ✅ Greyscale Option
+                    />
                 )}
                 <HighchartsReact
                     highcharts={Highcharts}
@@ -78,25 +96,37 @@ const CryptoChart: React.FC<CryptoChartProps> = ({
                                 height: showVolume ? "70%" : "100%",
                                 lineWidth: 0,
                                 gridLineWidth: 0,
-                                labels: {
-                                    enabled: true,
-                                    style: { color: theme.palette.text.primary },
-                                },
+                                labels: { enabled: true, style: { color: theme.palette.text.primary } },
                                 opposite: true,
                             },
-                        ],
+                            showVolume
+                                ? {
+                                    title: { text: "Volume" },
+                                    top: "75%",
+                                    height: "25%",
+                                    offset: 0,
+                                    lineWidth: 1,
+                                    labels: { enabled: true },
+                                }
+                                : null,
+                        ].filter(Boolean) as Highcharts.YAxisOptions[],
                         tooltip: { split: true },
                         series: [
                             {
                                 type: chartType,
                                 name: "Crypto Price",
-                                data: chartType === "candlestick" ? data : data.map((item) => [item[0], item[4]]),
+                                data: chartType === "candlestick" ? ohlc : lineData,
                                 color: "#00aaff",
                                 ...(chartType === "line" && fillLineChart
                                     ? { type: "area", fillOpacity: 0.2, threshold: null, lineWidth: 2 }
                                     : {}),
                             },
-                            showVolume && { type: "column", name: "Volume", data: data.map((item) => [item[0], item[5]]), yAxis: 1 },
+                            showVolume && {
+                                type: "column",
+                                name: "Volume",
+                                data: volume,
+                                yAxis: 1,
+                            },
                         ].filter(Boolean) as Highcharts.SeriesOptionsType[],
                     }}
                     ref={chartRef}
