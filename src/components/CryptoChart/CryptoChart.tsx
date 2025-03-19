@@ -7,6 +7,40 @@ import HighchartsReact from "highcharts-react-official";
 import { useCryptoChartController, CryptoChartProps } from "./CryptoChartController";
 import styles from "./CryptoChart.module.css";
 
+/**
+ * A React Functional Component that renders a customizable cryptocurrency chart using Highcharts.
+ *
+ * @typedef {Object} CryptoChartProps
+ * @property {string} [chartType="line"] Specifies the type of chart to render. Accepted values are "line", "area", or "candlestick".
+ * @property {boolean} [showVolume=false] Determines if a volume bar chart should be displayed alongside the price chart.
+ * @property {boolean} [showRangeSelector=false] Enables or disables the range selector tool for the chart.
+ * @property {boolean} [showSlider=false] Specifies whether a slider should appear for interactive data selection.
+ * @property {boolean} [showDragPane=false] Indicates whether the chart drag pane is displayed.
+ * @property {boolean} [showNavigator=false] Specifies whether the navigator component should be displayed at the bottom of the chart.
+ * @property {boolean} [fillLineChart=false] Determines if a line chart should be filled (area chart).
+ * @property {boolean} [showTokenHeader=false] Toggles the header that displays token information, including name, pair, and other metadata.
+ * @property {boolean} [showBackgroundLogo=false] Enables or disables a background logo behind the chart.
+ * @property {boolean} [greyscaleBackgroundLogo=false] If true, the background logo will be displayed in greyscale.
+ * @property {number} [chartWidth=1000] Specifies the width of the chart container in pixels.
+ * @property {number} [chartHeight=450] Specifies the height of the chart container in pixels.
+ *
+ * @component
+ * @param {CryptoChartProps} props The properties that configure the behavior and appearance of the chart component.
+ *
+ * @description
+ * The CryptoChart component utilizes Highcharts to create an interactive and customizable cryptocurrency visualization. It supports multiple chart types, displays token details, and optionally includes features such as range selectors, sliders, volume indicators, and more. Additionally, the component is highly configurable to match the user's requirements.
+ *
+ * Features:
+ * - Line, area, and candlestick chart types supported.
+ * - Optionally display trading volume as a bar chart.
+ * - Optional token header showing token details like name, pair, and current price.
+ * - Background logo support with optional greyscale filtering.
+ * - Interactive chart features like navigator, range selector, and sliders.
+ * - Custom width and height for responsive design.
+ *
+ * Note:
+ * Data and configurations are managed by the useCryptoChartController hook for seamless integration. Ensure required properties for token data and data structure are properly managed to avoid unintended rendering issues.
+ */
 const CryptoChart: React.FC<CryptoChartProps> = ({
                                                      chartType = "line",
                                                      showVolume = false,
